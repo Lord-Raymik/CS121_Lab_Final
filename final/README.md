@@ -282,6 +282,7 @@ This is an interface representing that something has a menu. It includes abstrac
 This class represents the main menu, which begins on the program starting. It is from here that the user can decide to start a new game, continue a previous game, view records of previous games, or exit the program. As it is a menu, it will need to include the HasMenu interface. It will include the following data members and methods.  
 
 Hotel - currentGame: This variable represents an existing game. It will be serialized to a file when the program is not running, and loaded when it starts. If there is no current run, it will be saved as null.  
+
 LogList - previousGames: This is a custom class which acts as a list of GameLog's. It has it's own menu, through which the logs are accessed and viewed.  
 
 **public MainMenu()**  
@@ -347,3 +348,24 @@ catch IOException
 catch ClassNotFoundException
     print the exception
 ```
+
+### Hotel - class
+This class, despite it's name, practically represents the entirety of a game. Representing the hotel itself, this stores practically all the data related to a game, including hotel stats, going through turns, handling events, etc. Due to having a menu, Hotel also implements the HasMenu interface. It includes the follow variables and methods.  
+
+double - balance: This is the hotel's current amount of money. If this value is under 0 by the end of a turn, then the game ends, with the user going bankrupt.  
+
+double - rating: This is the hotel's current customer rating. This value influences how many guests come to the hotel every turn. It can be anywhere between 0 and 5, with a higher value meaning more guests.  
+
+int - numRooms: This represents the max occupancy of the hotel. It cannot hold more guests than this number.  
+
+int - numGuests: This represents how many guests are currently staying at the hotel. This value cannot be lower than 0, and cannot be higher than numRooms.  
+
+double - service: This represents how good the hotel's service is for guests. This value influences how the hotel's guests will rate it when they leave at the end of the month. A high value means that they will likely leave a good review, while a low value means they are likely to leave a poor review. This value influences things more extremely the more guests are staying.  
+
+int - numStaff: This is how many staff members the hotel currently has. A single staff member can maintain 10 rooms on their own. There can only be as many guests as can be maintained by staff members. If there are more rooms to maintain than staff can do, it will negatively impact staff happiness, making them more likely to quit. If there are more than necessary though, it will increase staff happiness, making them less likely to quit.  
+
+double - staffHappiness: This determines the happiness of the current staff. If this value is low, staff are more likely to quit when a month begins. If it is high, they are less likely to quit.  
+
+double - safety: This value influences how likely it is that certain events happen. Specifically, events like a lawsuit in which some form of liability causes a problem for the hotel.  
+
+EventList - events: This is a custom class which holds a list of events. These events are generated when a turn begins, and the user must make decisions on how to deal with them.
