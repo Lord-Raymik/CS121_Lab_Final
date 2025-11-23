@@ -368,4 +368,6 @@ double - staffHappiness: This determines the happiness of the current staff. If 
 
 double - safety: This value influences how likely it is that certain events happen. Specifically, events like a lawsuit in which some form of liability causes a problem for the hotel.  
 
-EventList - events: This is a custom class which holds a list of events. These events are generated when a turn begins, and the user must make decisions on how to deal with them.
+EventList - events: This is a custom class which holds a list of events. These events are generated when a turn begins, and the user must make decisions on how to deal with them.  
+
+GameLog - currentLog: This is the log for the current game, storing data related to it, which can be seen in the main menu once the game is complete.
