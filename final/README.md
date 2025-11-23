@@ -5,7 +5,7 @@ This project will be a simulation of managing a hotel, with some game-like aspec
 It will involve making decisions on a "turn" to "turn" basis. These decisions would influence certain variable's of your business, such as popularity, staff, room number, etc. It will also have random events happen each turn, with the way you handle them causing some sort of consequence, whether good or bad. This will make a game loop of both what to focus on each turn, as well as choosing how to handle events as they come by. The game will likely have multiple endings, based on if you get some certian amount of money by the end of the game, dont get enough money, or if you go bankrupt. Either way, I think this gameplay loop should work well if done right.  
 When it comes to intended users, they would simply be whoever wants to play to game. Due to being a game, this is kind of an easy observation.  
 As for what problems this game is meant to solve... I guess boredom? That's typically what games try and fix. Oh, and I guess this also solves the problem of me needing to make a final project. On yop of that, it would likely appeal to those who like text based games who also wants to simulate managing a hotel.  
-For technologies and structures... I'll probably need to make a class or two involving the hotel itself. This would track things such as how many rooms it has, how many employees it has, how much money it currently has, it's popularity, staff and customer satisfaction, etc. I'll also need a class representing a random event, which I could make subclasses of to represent different types of events. Also, the hotel itself, as well as events, will need interactable text menus. I can do this through an interface, as there are multiple things I'll need it to apply to. Also relating to events, I plan to generate and store them in an arraylist at the beginning of each turn. This will, obviously, require an arraylist. However, there's also generation to think about. Specifically, I want there to be universal events that can always happen, as well as situational events that only appear if, for instance, you chose a certain buisiness focus at the start fo the turn, such as expanding your number of rooms or something. This would serve to try and mix things up a bit.  
+For technologies and structures... I'll probably need to make a class or two involving the hotel itself. This would track things such as how many rooms it has, how many employees it has, how much money it currently has, it's popularity, staff and customer satisfaction, etc. I'll also need a class representing a random event, which I could make subclasses of to represent different types of events. As for events, I plan to generate and store them in an arraylist at the beginning of each turn. This will, obviously, require an arraylist. However, there's also generation to think about. Specifically, I want there to be universal events that can always happen, as well as situational events that only appear if, for instance, you chose a certain buisiness focus at the start fo the turn, such as expanding your number of rooms or something. This would serve to try and mix things up a bit.  
 As another short aside, there are going to be a lot of menus related to this game. There will be a menu for the homescreen, a menu for the hotel, a menu for every month of running the hotel, a menu for the different events that occur each month, etc. Due to this, I think making an interface—similar to the one we made for BankOnIt—would be good here, simply due to how many different menus there are.  
 
 Also on another note, this is a much farther goal on the milestones, but I plan to implement serialization, as well as logs to track a user's progress over a game. This will also allow me to save a list of logs from previous runs, allowing someone to look at their past attempts at the game, and maybe even see in which runs they had the best ranking in each stat, or something like that. Either way, it would be a way to provide more interaction to the user on some level, as well as just being something that makes sense to add.  
@@ -270,3 +270,80 @@ Now, I need to talk about the serialization of data. Specifically, I need to def
 When it comes to data needing to be persistent, there are two main things to speak of. Specifically, the current game, and previous games. Previous games can be stored through an arraylist of previous run logs. This arraylist can then be serialized, allowing these previous logs to be persistent. Next, the hotel. the hotel itself is basically our current run. It stores all of our values, it stores our current run log, it stores where we currently are. Effectively, to be able to save our current run, we simply need to serialize the current Hotel object. By doing this, we are able to make sure that our data is able to persist even if the program closes.
 
 ## Algorithm documentation
+This section will go over various data members, including what they are, and what they do.
+
+### HasMenu - interface
+This is an interface representing that something has a menu. It includes abstract methods such as:  
+
+**public String menu()**  
+**public void start()**  
+
+### MainMenu - class
+This class represents the main menu, which begins on the program starting. It is from here that the user can decide to start a new game, continue a previous game, view records of previous games, or exit the program. As it is a menu, it will need to include the HasMenu interface. It will include the following data members and methods.  
+
+Hotel - currentGame: This variable represents an existing game. It will be serialized to a file when the program is not running, and loaded when it starts. If there is no current run, it will be saved as null.  
+LogList - previousGames: This is a custom class which acts as a list of GameLog's. It has it's own menu, through which the logs are accessed and viewed.  
+
+**public MainMenu()**  
+```
+call loadGame()
+```
+
+**public String menu()**  
+```
+create a new scanner
+print out the menu text, including all the user's options.
+save the user's response as a variable
+return said variable
+```
+
+**public void start()**  
+```
+create a new boolean called keepGoing, set it to true
+while keepGoing
+    call menu and save it's return value to a variable called input
+    if input is "0"
+        set keepGoing to false
+        call saveGame()
+    if input is "1"
+        create a new Hotel and save it to currentGame
+        call start() on the new Hotel
+    if input is "2"
+        if currentGame is null
+            tell the user there is no game to load
+        else
+            call start() on the Hotel in currentGame
+    if input is "3"
+        call start() on the LogList in previousGames
+```
+
+**public void saveGame()**  
+```
+try
+    create a new FileOutputStream named gameFileOut
+    create a new ObjectOutputStream named gameObjectOut, connect it to gameFileOut
+    create a new FileOutputStream named logFileOut
+    create a new ObjectOutputStream named logObjectOut, connect it to logFileOut
+    write currentGame to gameObjectOut
+    write previousGames to logObjectOut
+    close all the streams
+catch IOException
+    print the exception
+```
+
+**public void loadGame()**  
+```
+try
+    create a new fileInputStream named gameFileIn
+    create a new objectInputStream named gameObjectIn, connect it to gameFileIn
+    create a new fileInputStream named logFileIn
+    create a new objectInputStream named logObjectIn, connect it to logFileIn
+    read the object from gameObjectIn and save it to currentGame
+    read the object from logObjectIn and save it to previousGames
+    close all the streams
+catch IOException
+    set currentGame to null
+    create a new empty LogList and save it to previousGames
+catch ClassNotFoundException
+    print the exception
+```
