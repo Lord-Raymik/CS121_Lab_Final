@@ -285,6 +285,12 @@ Hotel - currentGame: This variable represents an existing game. It will be seria
 
 LogList - previousGames: This is a custom class which acts as a list of GameLog's. It has it's own menu, through which the logs are accessed and viewed.  
 
+**public static void main(String[] args)**  
+```
+create a new MainMenu
+call start() on the new MainMenu
+```
+
 **public MainMenu()**  
 ```
 call loadGame()
@@ -352,22 +358,17 @@ catch ClassNotFoundException
 ### Hotel - class
 This class, despite it's name, practically represents the entirety of a game. Representing the hotel itself, this stores practically all the data related to a game, including hotel stats, going through turns, handling events, etc. Due to having a menu, Hotel also implements the HasMenu interface. It includes the follow variables and methods.  
 
-double - balance: This is the hotel's current amount of money. If this value is under 0 by the end of a turn, then the game ends, with the user going bankrupt.  
+### Event - class
+This class represents an event that happens during a turn. It contains a string explaining it's situation, as well as containing a list of different EventChoice objects. This class also contians menus, so it will implement the HasMenu interface.  
 
-double - rating: This is the hotel's current customer rating. This value influences how many guests come to the hotel every turn. It can be anywhere between 0 and 5, with a higher value meaning more guests.  
+### EventChoice
+This class represents a choice contained within an event. It has it's own name representing what the choice itself is, as well as what hotel variable it affects, and by how much.  
 
-int - numRooms: This represents the max occupancy of the hotel. It cannot hold more guests than this number.  
+### EventList - class
+This class contains a single arraylist of Events. It has various methods relating to interacting with them.  
 
-int - numGuests: This represents how many guests are currently staying at the hotel. This value cannot be lower than 0, and cannot be higher than numRooms.  
+### GameLog - class
+This class keeps track of a game throughout every turn, remembering what it's variable's values were at each turn, as well as what ending a game had. In short, it should be able to clearly show how a run went throughout it's playtime. This class has menus, so it will implement the HasMenu interface.  
 
-double - service: This represents how good the hotel's service is for guests. This value influences how the hotel's guests will rate it when they leave at the end of the month. A high value means that they will likely leave a good review, while a low value means they are likely to leave a poor review. This value influences things more extremely the more guests are staying.  
-
-int - numStaff: This is how many staff members the hotel currently has. A single staff member can maintain 10 rooms on their own. There can only be as many guests as can be maintained by staff members. If there are more rooms to maintain than staff can do, it will negatively impact staff happiness, making them more likely to quit. If there are more than necessary though, it will increase staff happiness, making them less likely to quit.  
-
-double - staffHappiness: This determines the happiness of the current staff. If this value is low, staff are more likely to quit when a month begins. If it is high, they are less likely to quit.  
-
-double - safety: This value influences how likely it is that certain events happen. Specifically, events like a lawsuit in which some form of liability causes a problem for the hotel.  
-
-EventList - events: This is a custom class which holds a list of events. These events are generated when a turn begins, and the user must make decisions on how to deal with them.  
-
-GameLog - currentLog: This is the log for the current game, storing data related to it, which can be seen in the main menu once the game is complete.
+### LogList - class
+This class contains a single arraylist of GameLogs. It has a menu used for interacting with these GameLogs, so it implements the HasMenu interface.  
