@@ -358,17 +358,170 @@ catch ClassNotFoundException
 ### Hotel - class
 This class, despite it's name, practically represents the entirety of a game. Representing the hotel itself, this stores practically all the data related to a game, including hotel stats, going through turns, handling events, etc. Due to having a menu, Hotel also implements the HasMenu interface. It includes the follow variables and methods.  
 
+MainMenu - mainMenu: this is a reference to the main menu.  
+
+GameLog - log: this is the log for the current game.  
+
+EventList - events: this is an arraylist containing all the events the game goes through on each turn.  
+
+double - balance: this is the money the hotel currently has.  
+
+double - rating: this is the customer rating the hotel currently has.  
+
+int - rooms: this is the max number of rooms.  
+
+int - guests: this is the current number of guests in rooms.  
+
+int - staff: this is the current number of staff.  
+
+double - service: basically customer satisfaction. influences how your rating changes with each guest.  
+
+double - staffContent: this influences how likely it is that staff
+
 ### Event - class
 This class represents an event that happens during a turn. It contains a string explaining it's situation, as well as containing a list of different EventChoice objects. This class also contians menus, so it will implement the HasMenu interface.  
 
-### EventChoice
+Hotel - hotel: this is a reference to the hotel.  
+
+String - premise: this is the situation that the event describes, which will be printed for the user.  
+
+ArrayList<EventChoice> - choices: this is an arraylist containing every choice the user can make in response to the event.  
+
+**public static void main(String[] args)**  
+```
+create a new event
+define some test premise and choices for it
+call start() on the event
+```
+
+**public Event()**  
+```
+set hotel to null
+set String to "null"
+set choices to an empty arraylist
+```
+
+**public Event(Hotel hotel, String inPremise, ArrayList<EventChoice> inChoices)**  
+```
+set the event's values to match the parameters
+```
+
+**public void setHotel(Hotel input)**  
+
+**public void setPremise(String input)**  
+
+**public void setChoices(ArrayList<EventChoice> input)**  
+
+**public void String menu()**  
+```
+create a new Scanner
+print out the premise
+print out the choice value in each EventChoice
+ask the user what they would like do
+save their response to a variable
+if the response does not correspond to one of the question indexes, set the response to null
+return the value from the response
+```
+
+**public void start()**  
+```
+create a new boolean called keepGoing, set it to true
+while keepGoing
+    call menu() and save it's return value in a variable calle input
+    if input corresponds to an EventChoice
+        set keepGoing to false
+        print out the result value from the corresponding EventChoice
+        call choose() on the corresponding EventChoice
+```
+
+### EventChoice - class
 This class represents a choice contained within an event. It has it's own name representing what the choice itself is, as well as what hotel variable it affects, and by how much.  
 
+Hotel - hotel: this is a reference to the hotel.  
+
+String - choice: this is effectively the text explaining what the choice actually is.  
+
+String - result: this is the text that occurs when you pick this choice.   
+
+EventVar - targetValue: this specifies which value in Hotel is being targeted.  
+
+double - amount: this is the amount that the target value is being changed by. It will add to it if it's positive, and subtract if it's negative.  
+
+**public static void main(String[] args)**  
+```
+create a new Hotel
+create a new EventChoice
+set the EventChoice to reference the hotel
+design some test values for the choice and apply them to it
+print the choice from the EventChoice
+print the result form the EventChoice
+print the current values in the Hotel
+call choose() on the EventChoice
+print the new values from Hotel
+```
+
+**public EventChoice()**  
+```
+set hotel to null
+set choice to "null"
+set result "null"
+set targetValue to null
+set amount to 0
+```
+
+**public EventChoice(Hotel inHotel, String inChoice, String inResult, EventVar inTarget, double inAmount)**  
+```
+set hotel to inHotel
+set choice to inChoice
+set consequence to inResult
+set targetValue to inTarget
+set amount to inAmount
+```
+
+**public void setHotel(Hotel input)**  
+
+**public void setChoice(String input)**  
+
+**public void setResult(String input)**  
+
+**public void setTargetValue(EventVar input)**  
+
+**public void setAmount(double input)**  
+
+**public String getChoice()**  
+
+**public String getResult()**  
+
+**public void choose()**  
+```
+if hotel != null
+    target the variable in hotel corresponding to targetValue
+    change the variable by amount, adding to it if amount is positive and subtracting if negative
+```
+
+### EventVar - enum
+This is an enumeration representing what variable in hotel is being targeted by an EventChoice. It can be one of the following values.  
+```
+Balance
+Rating
+Room
+Guest
+Staff
+Service
+StaffContent
+```
 ### EventList - class
-This class contains a single arraylist of Events. It has various methods relating to interacting with them.  
+This class extends ArrayList<Event>. It has methods relating to interacting with the events it contains.  
+
+**public void run()**  
+```
+for every Event in the EventList
+    call start()
+call clear() on the EventList
+```
 
 ### GameLog - class
 This class keeps track of a game throughout every turn, remembering what it's variable's values were at each turn, as well as what ending a game had. In short, it should be able to clearly show how a run went throughout it's playtime. This class has menus, so it will implement the HasMenu interface.  
 
 ### LogList - class
-This class contains a single arraylist of GameLogs. It has a menu used for interacting with these GameLogs, so it implements the HasMenu interface.  
+This class contains a single arrddaylist of GameLogs. It has a menu used for interacting with these GameLogs, so it implements the HasMenu interface.  
