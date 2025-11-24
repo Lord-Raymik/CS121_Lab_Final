@@ -523,5 +523,71 @@ call clear() on the EventList
 ### GameLog - class
 This class keeps track of a game throughout every turn, remembering what it's variable's values were at each turn, as well as what ending a game had. In short, it should be able to clearly show how a run went throughout it's playtime. This class has menus, so it will implement the HasMenu interface.  
 
+String - ending: this value is null until the user finished a the corresponding game.  
+
+ArrayList<double> - balance: tracks the balance of the hotel every turn.  
+
+ArrayList<double> - rating: tracks the rating of the hotel every turn.  
+
+ArrayList<int> - rooms: tracks the number of rooms in the hotel every turn.  
+
+ArrayList<int> - guests: tracks the number of guests in the hotel every turn.  
+
+ArrayList<int> - staff: tracks the number of staff in the hotel every turn.  
+
+ArrayList<double> - service: tracks the service of the hotel every turn.  
+
+ArrayList<double> - staffContent: tracks the staff contentedness in the hotel every turn.  
+
+**public static void main(String[] args)**  
+```
+create a new 
+```
+
+**public GameLog()**  
+```
+set ending to be null
+set every arraylist tracking a value to be empty
+```
+
+**public String menu()**  
+```
+create a new Scanner
+print out the different options the user can select
+ask the user for their response and save it to a variable
+return the user's response
+```
+
+**public void start()**  
+```
+create a new boolean called keepGoing, set it to true
+while keepGoing
+    call menu() and save its response to a variable called input
+    if input is "0"
+        set keepGoing to false
+    if input is "1"
+        if ending != null
+            print the ending the game had
+        print the last values in the arraylists tracking the hotel variables
+    if input corresponds to a specific variable (will not define which number is which now)
+        print what the variable's value was during every turn
+```
+
+**public void addTurnValues(Hotel hotel)**  
+```
+for every hotel variable that has a corresponding arraylist tracking it over every turn
+    add the hotel value to the arraylist tracking it
+```
+
+**public void setEnding(String input)**  
+
 ### LogList - class
-This class contains a single arrddaylist of GameLogs. It has a menu used for interacting with these GameLogs, so it implements the HasMenu interface.  
+This class extends ArrayList<gameLog>. It has a menu used for interacting with these GameLogs, so it implements the HasMenu interface.  
+
+**public String menu()**  
+```
+create a new Scanner
+print the options the user can select
+ask the user for their response and save it to a variable
+return the value in the user's response variable
+```
