@@ -324,6 +324,10 @@ while keepGoing
         call start() on the LogList in previousGames
 ```
 
+**public LogList getPreviousGames()**  
+
+**public void setCurrentGame(Hotel input)**  
+
 **public void saveGame()**  
 ```
 try
@@ -362,21 +366,33 @@ MainMenu - mainMenu: this is a reference to the main menu.
 
 GameLog - log: this is the log for the current game.  
 
-EventList - events: this is an arraylist containing all the events the game goes through on each turn.  
+int - balance:
 
-double - balance: this is the money the hotel currently has.  
+int - rooms:
 
-double - rating: this is the customer rating the hotel currently has.  
 
-int - rooms: this is the max number of rooms.  
 
-int - guests: this is the current number of guests in rooms.  
 
-int - staff: this is the current number of staff.  
+**public static void main(String[] args)**  
+```
+create a new Hotel
+call start() on the hotel
+```
 
-double - service: basically customer satisfaction. influences how your rating changes with each guest.  
+**public Hotel()**  
+```
+set mainMenu to null
+set log to a new GameLog
+set events to a new EventList
+set all primitive variables to some default values (to be determined via playtesting)
+```
 
-double - staffContent: this influences how likely it is that staff
+**public Strng menu()**  
+```
+create a new Scanner
+print the current state of the hotel (this involves displaying a lot of the variables)
+ask the user what focus they would like to take this turn (every focus should do something about the "decay" of a certain
+```
 
 ### Event - class
 This class represents an event that happens during a turn. It contains a string explaining it's situation, as well as containing a list of different EventChoice objects. This class also contians menus, so it will implement the HasMenu interface.  
@@ -523,6 +539,8 @@ call clear() on the EventList
 ### GameLog - class
 This class keeps track of a game throughout every turn, remembering what it's variable's values were at each turn, as well as what ending a game had. In short, it should be able to clearly show how a run went throughout it's playtime. This class has menus, so it will implement the HasMenu interface.  
 
+String - name: this is the name of the hotel the GameLog is associated with.  
+
 String - ending: this value is null until the user finished a the corresponding game.  
 
 ArrayList<double> - balance: tracks the balance of the hotel every turn.  
@@ -541,8 +559,12 @@ ArrayList<double> - staffContent: tracks the staff contentedness in the hotel ev
 
 **public static void main(String[] args)**  
 ```
-create a new 
+create a new Hotel
+Create a new GameLog
+perform some test case involving the GameLog, likely ones that test all the features
+call start() on the GameLog to test it's menu capabilities
 ```
+
 
 **public GameLog()**  
 ```
@@ -587,7 +609,20 @@ This class extends ArrayList<gameLog>. It has a menu used for interacting with t
 **public String menu()**  
 ```
 create a new Scanner
-print the options the user can select
-ask the user for their response and save it to a variable
+print out any constant options
+for every GameLog in the LogList
+    print out it's inde and the name of the hotel it's associated with
+get the user's response and save it in a variable
 return the value in the user's response variable
+```
+
+**public void start()**  
+```
+create a new boolean called keepGoing, set it to true
+while keepGoing
+    call menu() and save it's return value to a variable called input
+    if input is 0
+        set keepGoing to false
+    if input corresponds to a GameLog
+        call start() on the corresponding GameLog
 ```
