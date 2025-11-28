@@ -280,7 +280,7 @@ public String menu()
 public void start()  
 
 
-### MenuBase - abstract class
+### MenuBase - abstract class; implements HasMenu
 This class serves as a foundation for all the program's menus. This involves containing behaviors which all menus will have in common.  
 
 private String title - this is the title for any specific menu. It will likely be displayed in a header for the menu itself.  
@@ -330,4 +330,75 @@ public abstract String menu()
 public abstract void start()  
 
 
+### Config class
+This class is conpletely for bakc end reasons. It contains a lot of constants which will be referenced in the Hotel class and such. Not really too important in the grand scheme of things, but will be super useful when I'm playtesting and tweaking values.  
+
 ### Hotel - class
+This is the main class of the program. It stores all the data about the hotel,a s well as all it's methods and menus.  
+
+private int turn - this represents the current turn the hotel is on, with each turn representing one month or so.  
+
+private int balance - this represents the amount of money at the hotel's disposal.  
+
+private int rooms - this represents the number fo rooms in the hotel.  
+
+private int staff - this is the number of staff in the hotel.  
+
+private int staffSatisfaction - this is the level of satisfaction that staff have working in the hotel, which affects quitting rates.  
+
+private int service - the level of service that the hotel provides to guests.  
+
+private int reputation - the popularity/rating of the hotel, affecting how many guests come to it each month.  
+
+private int occupancy - this is the current occupancy of the hotel. It's value will be generated every turn.  
+
+public void decay()  
+```
+[actual amounts are undecided, and will be ironed out in playtesting]
+
+decay the staffSatisfaction by some amount
+determine if any staff quit based on some calculation
+decay the service by some amount
+decay the reputation by some amount
+```
+
+public void update()  
+```
+[actual amount subject to game testing, again]
+
+calculate occupancy
+adjust occupancy based on both the max rooms in the hotel as well as how many the staff can maintain
+calculate income based on some calculation relating to occupancy
+calculate reputation based on some calculation relating to service
+calculate staffSatisfaction based on some calculation
+calculate service based on some calculation, likely involving the number of staff and the number of rooms or something
+```
+
+public void costs()  
+```
+[again, all actual amounts undetermined atm]
+
+calculate the expenses for the month
+subtract the expenses from the hotel's balance
+```
+
+public void displayStats()  
+```
+display the current information about the hotel
+this includes information about what turn it is as well as any other needed stats.
+```
+
+public void openMenu(MenuBase menu)  
+```
+call start() on menu (due to being the abstract class, and knowing eveyr menu has start(), this will work for any menu no matter what)
+```
+
+public void start()  
+```
+WIP [WILL CONTINUE THIS AFTER THE MENUS ARE PLANNED OUT]
+```
+
+**some getters and setters will be implemented**
+
+
+### MenuHotel - class; extends MenuBase
