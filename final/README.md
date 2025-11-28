@@ -276,16 +276,35 @@ This section will go over various data members, including what they are, and wha
 ### HasMenu - interface
 This interface represents the basic behaviors which all things that include a menu need to have. This includes a menu's main loop (likely in a start() method) and a menu which it displays (in an aptly named menu() method).  
 
-public String menu()  
+public void menu()  
 public void start()  
+
+
+### MenuType - enum
+This is simply for the purpose of listing a menu's type. Mostly for displaying it's header how I want it.  
+```
+Hotel
+Staff
+Turn
+
+[WIP]
+
+```
 
 
 ### MenuBase - abstract class; implements HasMenu
 This class serves as a foundation for all the program's menus. This involves containing behaviors which all menus will have in common.  
 
+private Hotel hotel - this is a reference to the main Hotel object.  
+
 private String title - this is the title for any specific menu. It will likely be displayed in a header for the menu itself.  
 
-private [something] type - this is more minor. It represents what type of menu this is, which itself will alter how it's header is displayed.  
+private MenuType type - this is more minor. It represents what type of menu this is, which itself will alter how it's header is displayed.  
+
+public MenuBase(Hotel hotel)  
+```
+set this.hotel to the value of the hotel parameter
+```
 
 public void printHeader()  
 ```
@@ -325,7 +344,7 @@ basically the same as the previous version, however
 only sets valid to true if input falls between min and max
 ```
 
-public abstract String menu()  
+public abstract void menu()  
 
 public abstract void start()  
 
@@ -346,11 +365,15 @@ private int staff - this is the number of staff in the hotel.
 
 private int staffSatisfaction - this is the level of satisfaction that staff have working in the hotel, which affects quitting rates.  
 
+private int staffPay - this is how expensive it is to employ a single staff member for a month
+
 private int service - the level of service that the hotel provides to guests.  
 
 private int reputation - the popularity/rating of the hotel, affecting how many guests come to it each month.  
 
 private int occupancy - this is the current occupancy of the hotel. It's value will be generated every turn.  
+
+private boolean continueGame - this is a boolean for if the game should continue at any given time.  
 
 public void decay()  
 ```
@@ -395,10 +418,107 @@ call start() on menu (due to being the abstract class, and knowing eveyr menu ha
 
 public void start()  
 ```
-WIP [WILL CONTINUE THIS AFTER THE MENUS ARE PLANNED OUT]
+set continueGame to true
+while continueGame
+    if balance > 0
+        call openMenu() to open a new MenuHotel
+    else
+        call stop()
+```
+
+public void stop()  
+```
+set continueGame to false
 ```
 
 **some getters and setters will be implemented**
 
 
 ### MenuHotel - class; extends MenuBase
+This class represents the "hub" menu. The one which is accessed between every month during which the user can access a variety of features, which also includes going to the next month and determining their focus for it. It could, at least in a way, be described as the main menu of the entire game.  
+
+private String title = "Hotel"  
+
+private MenuType type = MenuType.Hotel
+
+public void menu()  
+```
+call printHeader()
+display the current turn/month
+print the different menus the user can select, including the menu to begin the next turn
+```
+
+public void start()  
+```
+make a boolean called keepGoing, set it to true
+while keepGoing
+    call menu()
+    use getInt() to promt the user for a response, save it to an int called input
+    if input is 0
+        set keepGoing to false
+        call stop() on hotel //this will cause the game to end        
+    if input is 1
+        set keepGoing to false
+        use openMenu() to open a new turn menu
+    if input is 2
+        use openMenu() to open a new staff menu
+    if input is 3
+        use displayStats() to show the user information about the hotel
+```
+
+
+### MenuStaff - class; extends MenuBase
+This menu is meant to be accessed between months to either change the pay of, or fire staff members (hiring staff members is a month long focus, so it's not included here.  
+
+private String title = "Staff"  
+
+private MenuType type = MenuType.Staff  
+
+public void menu()  
+```
+call printHeader()
+display the current number of staff
+display the current pay-per-staff
+display the current monthly cost of all staff
+```
+
+public void start()  
+```
+make a new boolean called keepGoing, set it to true
+while keepGoing
+    call menu()
+    use getInt() to ask the user for a response, save it to an int called input
+    if input is 0
+        set keepGoing to false
+    if input is 1
+        use getInt() to ask the user for a response, save it to an int called fireNum
+        remove fireNum staff members from hotel (to a minimum of 0)
+        depending on hwo many are fired (maybe) decrease staffSatisfaction by some amount
+    if input is 2
+        use getInt() to ask the user for a response, save it to an int called newPay
+        set staffPay in hotel to newPay
+```
+
+
+### MenuTurn - class; extends MenuBase
+This is the menu used to interact with a turn, such as selecting a month focus.
+
+private String title = "Turn"  
+
+private MenuType type = MenuType.Turn
+
+public void menu()  
+```
+call printHeader()
+display the options the user can select (different month long focuses)
+```
+
+public void start()  
+```
+make a new boolean called keepGoing, set it to true
+while keepGoing
+    call menu()
+    use getInt() to get a response from the user, save it to an int called input
+    if input is ...
+        [WIP] (VERY IMPORTANT)
+```
