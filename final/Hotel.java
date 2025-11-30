@@ -93,6 +93,10 @@ public class Hotel {
 		continueGame = false;
 	} // end stop
 	
+	public String getDate() {
+		return "Year " + (int)(turn/12) + ", Month " + ((turn % 12) + 1);
+	} // end getDtae
+	
 	public int getTurn() {
 		return turn;
 	} // end getTurn
@@ -124,6 +128,24 @@ public class Hotel {
 	public int getReputation() {
 		return reputation;
 	} // end getReputation
+	
+	public void setTurn(int input) {
+		turn = input;
+		if (turn < 0) {
+			turn = 0;
+		} // end if
+	} // end setTurn
+	
+	public void setBalance(int input) {
+		balance = input;
+	} // end setBalance
+	
+	public void setRooms(int input) {
+		rooms = input;
+		if (rooms < 0) {
+			rooms = 0;
+		} // end if
+	} // end setRooms
 
 	public void setStaff(int input) {
 		staff = input;
@@ -132,11 +154,23 @@ public class Hotel {
 		} // end if
 	} // end setStaff
 	
+	public void setStaffSatisfaction(int input) {
+		staffSatisfaction = input;
+	} // end setStaffSatisfaction
+
 	public void setStaffPay(int input) {
 		staffPay = input;
 		if (staffPay < 0) {
 			staffPay = 0;
 		} // end if
 	} // end setStaffPay
+	
+	public void setService(int input) {
+		service = input;
+	} // end setService
+	
+	public void setReputation(int input) {
+		reputation = input;
+	} // end setReputation
 
 } // end class def

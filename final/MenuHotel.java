@@ -10,6 +10,8 @@ public class MenuHotel extends MenuBase {
 	
 	public void menu() {
 		printHeader();
+		System.out.println(hotel.getDate() + "\n");
+		System.out.println("Current Balance: $" + hotel.getBalance() + "\n");
 		System.out.println("0) Quit\n1) Begin Month\n2) Manage Staff\n3) Display Stats");
 	} // end menu
 	
@@ -23,7 +25,7 @@ public class MenuHotel extends MenuBase {
 				hotel.stop();
 			} else if (input == 1) {
 				keepGoing = false;
-				//to be implemented
+				hotel.openMenu(new MenuTurn(hotel));
 			} else if (input == 2) {
 				hotel.openMenu(new MenuStaff(hotel));
 			} else if (input == 3) {
