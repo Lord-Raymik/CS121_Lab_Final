@@ -20,7 +20,7 @@ public class MenuTurn extends MenuBase {
 	} // end menu
 	
 	public void start() {
-		//hotel.decay();
+		hotel.decay();
 		boolean keepGoing = true;
 		while (keepGoing) {
 			menu();
@@ -28,15 +28,25 @@ public class MenuTurn extends MenuBase {
 			if (choice == 0) {
 				keepGoing = false;
 			} else if (choice == 1) {
-
+				int hireNum = getInt("How many are you looking to hire", 0, 100);
+				if (hireNum > 0) {
+					keepGoing = false;
+					hotel.setStaff(hotel.getStaff() + hireNum);
+					System.out.println("\nNew staff number: " + hotel.getStaff() + "\n");
+				} // end if
 			} else if (choice == 2) {
-
+				hotel.setService(hotel.getService() + 10);
 			} else if (choice == 3) {
-
+				hotel.setReputation(hotel.getReputation() + 10);
 			} else if (choice == 4) {
+
+				// W.I.P
 
 			} // end else if
 		} // end while loop
+		hotel.update();
+		hotel.costs();
+		hotel.displayStats();
 		hotel.setTurn(hotel.getTurn() + 1);
 	} // end start
 	

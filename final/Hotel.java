@@ -41,25 +41,39 @@ public class Hotel {
 		staffSatisfaction -= Config.DECAY_STAFF_SATISFACTION;
 		service -= Config.DECAY_SERVICE;
 		reputation -= Config.DECAY_REPUTATION;
+		boolean quit = staffQuit();
+		if (true) {
+			staff--;
+		} // end if
 
 		// TO BE IRONED OUT FURTHER LATER (ALSO STAFF QUITTING WILL BE A METHOD THATS CALLED HERE)
 
 	} // end decay
 	
+	private boolean staffQuit() {
+		int rand = (int)Math.random() * 100;
+		if (rand + staffSatisfaction < Config.DECAY_QUIT_CHANCE) {
+			staff--;
+			return true;
+		} else {
+			return false;
+		} // end else if
+	} // end staffQuit
+	
 	public void update() {
-		occupancy = Config.GROWTH_OCCUPANCY * (reputation/10);
-		int effectiveRooms = Math.min(rooms, (staff*Config.ROOMS_PER_STAFF));
+		occupancy = (int)(Math.random());
+		int effectiveRooms = (int)Math.min(rooms, (staff*Config.ROOMS_PER_STAFF));
 		if (occupancy > effectiveRooms) {
 			occupancy = effectiveRooms;
 		} // end if
-		balance += occupancy * (Config.BASE_ROOM_INCOME + service);
-		reputation += (int)service/10;
-		staffSatisfaction += (effectiveRooms - rooms)/5;
-		service += (int)staff/2;
+		balance += (int)occupancy * (Config.ROOM_INCOME + (service));
+		reputation += (int)service;
+		staffSatisfaction += (effectiveRooms - rooms);
+		service += (int)staff;
 	} // end update
 	
 	public void costs() {
-		balance -= rooms * Config.COST_ROOM;
+		balance -= rooms * Config.ROOM_COST;
 		balance -= staff * staffPay;
 
 		// wip
