@@ -12,6 +12,9 @@ public class MenuHotel extends MenuBase {
 		printHeader();
 		System.out.println(hotel.getDate() + "\n");
 		System.out.println("Current Balance: $" + hotel.getBalance() + "\n");
+		if (hotel.getUnderConstruction() == true) {
+			System.out.println("Construction underway: " + hotel.getConstructionTime() + " months remaining\n");
+		} // end if
 		System.out.println("0) Quit\n1) Begin Month\n2) Manage Staff\n3) Display Stats");
 	} // end menu
 	

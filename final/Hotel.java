@@ -15,8 +15,10 @@ public class Hotel {
 	private int service;
 	private int reputation;
 
-	// other variables (often consistently altered every turn)
-	private int occupancy;
+	//the variables for doing construction to expand room count
+	private boolean underConstruction;
+	private int constructionTime;
+	private int expandAmount;
 
 	// the control variable determining if the game will continue
 	private boolean continueGame;
@@ -35,25 +37,24 @@ public class Hotel {
 		staffPay = Config.START_STAFF_PAY;
 		service = Config.START_SERVICE;
 		reputation = Config.START_REPUTATION;
+		underConstruction = false;
+		constructionTime = 0;
+		expandAmount = 0;
 	} // end constructor
 	
 	public void decay() {
 		staffSatisfaction -= Config.DECAY_STAFF_SATISFACTION;
 		service -= Config.DECAY_SERVICE;
-		reputation -= Config.DECAY_REPUTATION;
-		boolean quit = staffQuit();
-		if (true) {
-			staff--;
+		if (underConstruction == true) {
+			service -= 2;
 		} // end if
-
-		// TO BE IRONED OUT FURTHER LATER (ALSO STAFF QUITTING WILL BE A METHOD THATS CALLED HERE)
-
+		reputation -= Config.DECAY_REPUTATION;
 	} // end decay
 	
-	private boolean staffQuit() {
+	public boolean staffQuit() {
 		int rand = (int)Math.random() * 100;
 		if (rand + staffSatisfaction < Config.DECAY_QUIT_CHANCE) {
-			staff--;
+			setStaff(staff - 1);
 			return true;
 		} else {
 			return false;
@@ -61,23 +62,41 @@ public class Hotel {
 	} // end staffQuit
 	
 	public void update() {
-		occupancy = (int)(Math.random());
-		int effectiveRooms = (int)Math.min(rooms, (staff*Config.ROOMS_PER_STAFF));
-		if (occupancy > effectiveRooms) {
-			occupancy = effectiveRooms;
+		// calculating income based off of occupancy that month
+		int occupancy = (int) (Math.random() * 10);
+		int effectiveRooms = (int) Math.min(rooms, staff*20);
+		occupancy = Math.min(occupancy, effectiveRooms);
+		balance += (int) occupancy * (100 + (service * 3));
+
+		// calculating the growth of service
+		service += staff;
+
+		// calculating the growth of reputation
+		reputation += service;
+
+		// calculating staffSatisfaction
+		staffSatisfaction += (int) ((staff*20) - rooms)/10;
+
+		// managing expanding the hotel
+		if (underConstruction == true) {
+			constructionTime--;
+			if (constructionTime <= 0) {
+				underConstruction = false;
+				constructionTime = 0;
+				rooms += expandAmount;
+				expandAmount = 0;
+			} // end if
 		} // end if
-		balance += (int)occupancy * (Config.ROOM_INCOME + (service));
-		reputation += (int)service;
-		staffSatisfaction += (effectiveRooms - rooms);
-		service += (int)staff;
 	} // end update
 	
 	public void costs() {
-		balance -= rooms * Config.ROOM_COST;
-		balance -= staff * staffPay;
-
-		// wip
-
+		System.out.println("\nBefore costs: $" + balance);
+		int cost = 0;
+		cost += rooms * 10;
+		cost += staff * staffPay;
+		System.out.println("Costs: $" + cost);
+		balance -= cost;
+		System.out.println("Current balance: $" + balance);
 	} // end costs
 	
 	public void displayStats() {
@@ -106,6 +125,12 @@ public class Hotel {
 	public void stop() {
 		continueGame = false;
 	} // end stop
+	
+	public void expandRooms(int amount, int time) {
+		underConstruction = true;
+		constructionTime = time;
+		expandAmount = amount;
+	} // end expandRooms
 	
 	public String getDate() {
 		return "Year " + (int)(turn/12) + ", Month " + ((turn % 12) + 1);
@@ -142,6 +167,14 @@ public class Hotel {
 	public int getReputation() {
 		return reputation;
 	} // end getReputation
+	
+	public boolean getUnderConstruction() {
+		return underConstruction;
+	} // end getUnderConstruction
+	
+	public int getConstructionTime() {
+		return constructionTime;
+	} // end getConstructionTime
 	
 	public void setTurn(int input) {
 		turn = input;

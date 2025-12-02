@@ -10,7 +10,7 @@ public class Config {
 	public static final int START_BALANCE = 1000;
 	public static final int START_ROOMS = 20;
 	public static final int START_STAFF = 1;
-	public static final int START_STAFF_SATISFACTION = 1;
+	public static final int START_STAFF_SATISFACTION = 10;
 	public static final int START_STAFF_PAY = 1;
 	public static final int START_SERVICE = 1;
 	public static final int START_REPUTATION = 1;
