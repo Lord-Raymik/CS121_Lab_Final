@@ -5,32 +5,39 @@
  */
 
 public class Config {
+
+	/*
+	 * default values for a new Hotel
+	 */
+	public static class Default {
+		public static final int BALANCE = 1500;
+		public static final int ROOMS = 20;
+		public static final int STAFF = 3;
+		public static final int STAFF_SATISFACTION = 50;
+		public static final int STAFF_PAY = 100;
+		public static final int SERVICE = 10;
+		public static final int REPUTATION = 10;
+	} // end Default def
 	
-	// the default values the game starts at
-	public static final int START_BALANCE = 1000;
-	public static final int START_ROOMS = 20;
-	public static final int START_STAFF = 1;
-	public static final int START_STAFF_SATISFACTION = 10;
-	public static final int START_STAFF_PAY = 1;
-	public static final int START_SERVICE = 1;
-	public static final int START_REPUTATION = 1;
-
-	// balance constants
-	public static final int ROOMS_PER_STAFF = 20;
-	public static final int ROOM_COST = 10;
-	public static final int ROOM_INCOME = 20;
-		// W.I.P
-
-	// default decay values
-	public static final int DECAY_STAFF_SATISFACTION = 1;
-	public static final int DECAY_REPUTATION = 1;
-	public static final int DECAY_SERVICE = 1;
-	public static final int DECAY_QUIT_CHANCE = 1;
-
-	// decay multipliers
-	public static final double DECAY_MULT_UNDERSTAFF = 1.0;
-
-	// growth/influence multipliers
-	public static final double GROWTH_MULT_OVERSTAFF = 1.0;
-
+	/*
+	 * minimum and maximum values for applicable hotel variables
+	 */
+	public static class Range {
+		public static final int SERVICE_MIN = 0;
+		public static final int SERVICE_MAX = 100;
+		public static final int REPUTATION_MIN = 0;
+		public static final int REPUTATION_MAX = 100;
+		public static final int STAFF_SATISFACTION_MIN = 0;
+		public static final int STAFF_SATISFACTION_MAX = 100;
+	} // end Range def
+	
+	/*
+	 * values relating to game balance
+	 */
+	public static class Balance {
+		public static final int ROOMS_PER_STAFF = 10;
+		public static final int ROOM_COST = 10;
+		public static final int ROOM_INCOME = 20;
+	} // end Balance def
+	
 } // end class def

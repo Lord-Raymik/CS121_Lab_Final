@@ -27,6 +27,16 @@ public class Hotel {
 		Hotel hotel = new Hotel();
 		hotel.start();
 	} // end main def
+	
+	public static int clampInt(int value, int min, int max) {
+		if (value < min) {
+			return min;
+		} else if (value > max) {
+			return max;
+		} else {
+			return value;
+		} // end else if
+	} // end clampInt
 
 	public Hotel() {
 		turn = 0;

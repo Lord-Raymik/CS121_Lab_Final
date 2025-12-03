@@ -55,9 +55,11 @@ public class MenuTurn extends MenuBase {
 				hotel.setBalance(hotel.getBalance() - 500);
 				hotel.setReputation(hotel.getReputation() + 1);
 			} else if (choice == 4) {
-				keepGoing = false;
-				hotel.setBalance(hotel.getBalance() - (hotel.getRooms()*150));
-				hotel.expandRooms(10, 5);
+				if (hotel.getUnderConstruction() == false) {
+					keepGoing = false;
+					hotel.setBalance(hotel.getBalance() - (hotel.getRooms()*150));
+					hotel.expandRooms(10, 5);
+				} // end if
 			} // end else if
 		} // end while loop
 		hotel.update();
