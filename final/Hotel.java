@@ -40,30 +40,30 @@ public class Hotel {
 
 	public Hotel() {
 		turn = 0;
-		balance = Config.START_BALANCE;
-		rooms = Config.START_ROOMS;
-		staff = Config.START_STAFF;
-		staffSatisfaction = Config.START_STAFF_SATISFACTION;
-		staffPay = Config.START_STAFF_PAY;
-		service = Config.START_SERVICE;
-		reputation = Config.START_REPUTATION;
+		balance = Config.Default.BALANCE;
+		rooms = Config.Default.ROOMS;
+		staff = Config.Default.STAFF;
+		staffSatisfaction = Config.Default.STAFF_SATISFACTION;
+		staffPay = Config.Default.STAFF_PAY;
+		service = Config.Default.SERVICE;
+		reputation = Config.Default.REPUTATION;
 		underConstruction = false;
 		constructionTime = 0;
 		expandAmount = 0;
 	} // end constructor
 	
 	public void decay() {
-		staffSatisfaction -= Config.DECAY_STAFF_SATISFACTION;
-		service -= Config.DECAY_SERVICE;
+		staffSatisfaction -= 1;
+		service -= 1;
 		if (underConstruction == true) {
 			service -= 2;
 		} // end if
-		reputation -= Config.DECAY_REPUTATION;
+		reputation -= 1;
 	} // end decay
 	
 	public boolean staffQuit() {
 		int rand = (int)Math.random() * 100;
-		if (rand + staffSatisfaction < Config.DECAY_QUIT_CHANCE) {
+		if (rand + staffSatisfaction < 50) {
 			setStaff(staff - 1);
 			return true;
 		} else {
@@ -212,7 +212,7 @@ public class Hotel {
 	} // end setStaff
 	
 	public void setStaffSatisfaction(int input) {
-		staffSatisfaction = input;
+		staffSatisfaction = clampInt(input, Config.Range.STAFF_SATISFACTION_MIN, Config.Range.STAFF_SATISFACTION_MAX);
 	} // end setStaffSatisfaction
 
 	public void setStaffPay(int input) {
@@ -223,11 +223,11 @@ public class Hotel {
 	} // end setStaffPay
 	
 	public void setService(int input) {
-		service = input;
+		service = clampInt(input, Config.Range.SERVICE_MIN, Config.Range.SERVICE_MAX);
 	} // end setService
 	
 	public void setReputation(int input) {
-		reputation = input;
+		reputation = clampInt(input, Config.Range.REPUTATION_MIN, Config.Range.REPUTATION_MAX);
 	} // end setReputation
 
 } // end class def
