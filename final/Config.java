@@ -10,13 +10,13 @@ public class Config {
 	 * default values for a new Hotel
 	 */
 	public static class Default {
-		public static final int BALANCE = 1500;
+		public static final int BALANCE = 2000;
 		public static final int ROOMS = 20;
 		public static final int STAFF = 3;
-		public static final int STAFF_SATISFACTION = 50;
+		public static final int STAFF_SATISFACTION = 100;
 		public static final int STAFF_PAY = 100;
-		public static final int SERVICE = 10;
-		public static final int REPUTATION = 10;
+		public static final int SERVICE = 50;
+		public static final int REPUTATION = 50;
 	} // end Default def
 	
 	/*
@@ -38,7 +38,7 @@ public class Config {
 		public static final int ROOMS_PER_STAFF = 10;
 		public static final int ROOM_COST = 10;
 		public static final int ROOM_INCOME_BASE = 20;
-		public static final double ROOM_INCOME_SERVICE_SCALING = 1.0;
+		public static final double ROOM_INCOME_SERVICE_SCALING = 0.3;
 		public static final double REPUTATION_TARGET_SCALING = 0.9;
 		public static final double STAFF_SATISFACTION_TARGET_SCALING = 1.0;
 	} // end Balance def
@@ -47,12 +47,12 @@ public class Config {
 	 * values relating to the decay of hotel values
 	 */
 	public static class Decay {
-		public static final int SERVICE_NATURAL_DECAY = 1;
+		public static final int SERVICE_NATURAL_DECAY = 3;
 		public static final double SERVICE_DECAY_SCALING = 0.1;
 		public static final double SERVICE_DECAY_EXPONENT = 1.0;
-		public static final int REPUTATION_NATURAL_DECAY = 1;
+		public static final int REPUTATION_NATURAL_DECAY = 3;
 		public static final double REPUTATION_DECAY_SCALING = 0.33;
-		public static final int STAFF_SATISFACTION_NATURAL_DECAY = 1;
+		public static final int STAFF_SATISFACTION_NATURAL_DECAY = 3;
 		public static final double STAFF_SATISFACTION_DECAY_SCALING = 0.25;
 		public static final double STAFF_SATISFACTION_DECAY_EXPONENT = 1.5;
 	} // end Decay def

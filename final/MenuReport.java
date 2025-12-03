@@ -1,25 +1,24 @@
 /*
- * this is the menu for displaying the hotel's stats
+ * this is the menu that display's the hotel's status at the end of the month
  */
 
 import java.util.*;
 
-public class MenuStats extends MenuBase {
+public class MenuReport extends MenuBase {
 
-	public MenuStats (Hotel hotel) {
-		super(hotel, "Hotel Stats", "-");
+	public MenuReport (Hotel hotel) {
+		super(hotel, "Month Report", "^");
 	} // end constructor
 	
 	public void menu() {
 		printHeader();
-		hotel.displayStats();
 	} // end menu
 	
 	public void start() {
 		Scanner pause = new Scanner(System.in);
 		menu();
+		hotel.costs();
 		System.out.print("\n\nPress ENTER to continue...");
 		pause.nextLine();
-	} // end start
-	
+	} // end start	
 } // end class def

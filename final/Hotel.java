@@ -3,6 +3,8 @@
  * this class contains all the data for any single game, such as hotel stats, menus, events, etc.
  */
 
+import java.util.*;
+
 public class Hotel {
 
 	// the main values for the game
@@ -94,7 +96,7 @@ public class Hotel {
 	public void update() {
 
 		// calculating income
-		int occupancy = (int) Math.random() * rooms;
+		int occupancy = (int) ((Math.random() * rooms) + reputation/10);
 		int effectiveRooms = (int) Math.min(rooms, staff*Config.Balance.ROOMS_PER_STAFF);
 		occupancy = Math.min(occupancy, effectiveRooms);
 		setBalance( (int) (balance + (occupancy * (Config.Balance.ROOM_INCOME_BASE + (Config.Balance.ROOM_INCOME_SERVICE_SCALING * service)))));
@@ -125,7 +127,7 @@ public class Hotel {
 
 		// calculating monthly costs
 		int finalCost = 0;
-		System.out.println("\nMonthly Costs...\nCurrent balance: $" + balance + "\n");
+		System.out.println("Monthly Costs...\nCurrent balance: $" + balance + "\n");
 		int costRoom = rooms * Config.Balance.ROOM_COST; // the cost of the rooms
 		System.out.println("Room upkeep: -$" + costRoom);
 		int costStaff = staff * staffPay;
@@ -159,7 +161,10 @@ public class Hotel {
 			if (balance > 0) {
 				openMenu(new MenuHotel(this));
 			} else {
+				Scanner pause = new Scanner(System.in);
 				stop();
+				System.out.print("\nGAME OVER\nyou went bankrupt...");
+				pause.nextLine();
 			} // end else if
 		} // end while loop
 	} // end start

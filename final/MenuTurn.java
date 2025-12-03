@@ -16,11 +16,12 @@ public class MenuTurn extends MenuBase {
 		if (didQuit) {
 			System.out.println("A staff member quit this month...\n");
 		} // end if
+		System.out.println("Current Balance: $" + hotel.getBalance() + "\n");
 		System.out.println("What will you focus on this month?\n");
 		System.out.println("0) Nothing");
 		System.out.println("1) Hiring Campaign ($250)");
 		System.out.println("2) Hotel Service ($400)");
-		System.out.println("3) Marketing ($500)");
+		System.out.println("3) Marketing ($700)");
 		System.out.println("");
 		System.out.println("4) Hotel Expansion ($" + (hotel.getRooms() * 150) + ")\n          - large undertaking\n          - takes multiple months");
 	} // end menu
@@ -35,7 +36,6 @@ public class MenuTurn extends MenuBase {
 		while (keepGoing) {
 			menu();
 			int choice = getInt("Please Choose 0-4", 0, 4);
-			System.out.println("\n" + choice);
 			if (choice == 0) {
 				keepGoing = false;
 			} else if (choice == 1) {
@@ -49,11 +49,11 @@ public class MenuTurn extends MenuBase {
 			} else if (choice == 2) {
 				keepGoing = false;
 				hotel.setBalance(hotel.getBalance() - 400);
-				hotel.setService(hotel.getService() + 3);
+				hotel.setService(hotel.getService() + 6);
 			} else if (choice == 3) {
 				keepGoing = false;
-				hotel.setBalance(hotel.getBalance() - 500);
-				hotel.setReputation(hotel.getReputation() + 1);
+				hotel.setBalance(hotel.getBalance() - 700);
+				hotel.setReputation(hotel.getReputation() + 15);
 			} else if (choice == 4) {
 				if (hotel.getUnderConstruction() == false) {
 					keepGoing = false;
@@ -63,7 +63,7 @@ public class MenuTurn extends MenuBase {
 			} // end else if
 		} // end while loop
 		hotel.update();
-		hotel.costs();
+		hotel.openMenu(new MenuReport(hotel));
 		hotel.setTurn(hotel.getTurn() + 1);
 	} // end start
 	
