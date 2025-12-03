@@ -58,17 +58,17 @@ public class Hotel {
 		double decayStaffSatisfaction = 0;
 		decayStaffSatisfaction += Config.Decay.STAFF_SATISFACTION_NATURAL_DECAY; // the natural decay of staff satisfaction
 		double workLevel = rooms/(Config.Balance.ROOMS_PER_STAFF * staff); // the difficulty of the employee's jobs, based on how many rooms they CAN clean vs how many there are
-		double targetStaffSatisfaction = Config.Range.STAFF_SATISFACTION_MAX - (Config.Balance.STAFF_SATISFACTION_TARGET_SCALING * Math.pow(workLevel, Config.Decay.STAFF_SATISFACTION_EXPONENT)); // the target value that staf satisfaction rapidly decays towards
+		double targetStaffSatisfaction = Config.Range.STAFF_SATISFACTION_MAX - (Config.Balance.STAFF_SATISFACTION_TARGET_SCALING * Math.pow(workLevel, Config.Decay.STAFF_SATISFACTION_DECAY_EXPONENT)); // the target value that staf satisfaction rapidly decays towards
 		if (staffSatisfaction > targetStaffSatisfaction) {
 			decayStaffSatisfaction += Config.Decay.STAFF_SATISFACTION_DECAY_SCALING * (staffSatisfaction - targetStaffSatisfaction); // the calculation for rapid decay towards the target value
 		} // end if
-		setStaffSatisfaction( (int) staffSatisfaction - decayStaffSatisfaction);
+		setStaffSatisfaction( (int) (staffSatisfaction - decayStaffSatisfaction));
 
 		// decay of service
 		double decayService = 0;
 		decayService += Config.Decay.SERVICE_NATURAL_DECAY; // the natural decay of service
 		decayService += (Config.Decay.SERVICE_DECAY_SCALING * Math.pow(Config.Range.STAFF_SATISFACTION_MAX - staffSatisfaction, Config.Decay.SERVICE_DECAY_EXPONENT)); // decay from staff satisfaction
-		setService( (int) service - decayService);
+		setService( (int) (service - decayService));
 
 		// decay of reputation
 		double decayReputation = 0;
@@ -77,7 +77,7 @@ public class Hotel {
 		if (reputation > targetReputation) {
 			decayReputation += Config.Decay.REPUTATION_DECAY_SCALING * (reputation - targetReputation); // the calculation for rapid decay towards the target value
 		} // end if
-		setReputation( (int) reputation - decayReputation);
+		setReputation( (int) (reputation - decayReputation));
 
 	} // end decay
 	
@@ -92,22 +92,23 @@ public class Hotel {
 	} // end staffQuit
 	
 	public void update() {
-		// calculating income based off of occupancy that month
-		int occupancy = (int) (Math.random() * 10);
-		int effectiveRooms = (int) Math.min(rooms, staff*20);
+
+		// calculating income
+		int occupancy = (int) Math.random() * rooms;
+		int effectiveRooms = (int) Math.min(rooms, staff*Config.Balance.ROOMS_PER_STAFF);
 		occupancy = Math.min(occupancy, effectiveRooms);
-		balance += (int) occupancy * (100 + (service * 3));
+		setBalance( (int) (balance + (occupancy * (Config.Balance.ROOM_INCOME_BASE + (Config.Balance.ROOM_INCOME_SERVICE_SCALING * service)))));
 
 		// calculating the growth of service
-		service += staff;
+		setService( (int) (service + (staffSatisfaction * Config.Growth.SERVICE_GROWTH_SCALING)));
 
 		// calculating the growth of reputation
-		reputation += service;
+		setReputation( (int) (reputation + (service * Config.Growth.REPUTATION_GROWTH_SCALING)));
 
-		// calculating staffSatisfaction
-		staffSatisfaction += (int) ((staff*20) - rooms)/10;
+		// calculating the growth of staffSatisfaction
+		setStaffSatisfaction( (int) (staffSatisfaction + ((rooms/(staff * Config.Balance.ROOMS_PER_STAFF)) * Config.Growth.STAFF_SATISFACTION_GROWTH_SCALING)));
 
-		// managing expanding the hotel
+		// managing construction
 		if (underConstruction == true) {
 			constructionTime--;
 			if (constructionTime <= 0) {
@@ -117,16 +118,27 @@ public class Hotel {
 				expandAmount = 0;
 			} // end if
 		} // end if
+
 	} // end update
 	
 	public void costs() {
-		System.out.println("\nBefore costs: $" + balance);
-		int cost = 0;
-		cost += rooms * 10;
-		cost += staff * staffPay;
-		System.out.println("Costs: $" + cost);
-		balance -= cost;
-		System.out.println("Current balance: $" + balance);
+
+		// calculating monthly costs
+		int finalCost = 0;
+		System.out.println("\nMonthly Costs...\nCurrent balance: $" + balance + "\n");
+		int costRoom = rooms * Config.Balance.ROOM_COST; // the cost of the rooms
+		System.out.println("Room upkeep: -$" + costRoom);
+		int costStaff = staff * staffPay;
+		System.out.println("Staff salary: -$" + costStaff);
+
+		//applying monthly costs
+		finalCost += costRoom + costStaff;
+		System.out.println("\nTotal cost: -$" + finalCost);
+
+		// changing the balance
+		setBalance(balance - finalCost);
+		System.out.println("\nFinal Balance: $" + balance);
+
 	} // end costs
 	
 	public void displayStats() {

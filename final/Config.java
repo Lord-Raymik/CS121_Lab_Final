@@ -37,9 +37,10 @@ public class Config {
 	public static class Balance {
 		public static final int ROOMS_PER_STAFF = 10;
 		public static final int ROOM_COST = 10;
-		public static final int ROOM_INCOME = 20;
+		public static final int ROOM_INCOME_BASE = 20;
+		public static final double ROOM_INCOME_SERVICE_SCALING = 1.0;
 		public static final double REPUTATION_TARGET_SCALING = 0.9;
-		public static final double STAFF_SATISFACTION_TARGET_SCALING = 1.0; 
+		public static final double STAFF_SATISFACTION_TARGET_SCALING = 1.0;
 	} // end Balance def
 	
 	/*
@@ -55,5 +56,14 @@ public class Config {
 		public static final double STAFF_SATISFACTION_DECAY_SCALING = 0.25;
 		public static final double STAFF_SATISFACTION_DECAY_EXPONENT = 1.5;
 	} // end Decay def
+	
+	/*
+	 * values relating to the growth og hotel values
+	 */
+	public static class Growth {
+		public static final double SERVICE_GROWTH_SCALING = 0.05;
+		public static final double REPUTATION_GROWTH_SCALING = 0.05;
+		public static final double STAFF_SATISFACTION_GROWTH_SCALING = 1;
+	} // end Growth def
 	
 } // end class def
