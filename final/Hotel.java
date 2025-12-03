@@ -53,12 +53,32 @@ public class Hotel {
 	} // end constructor
 	
 	public void decay() {
-		staffSatisfaction -= 1;
-		service -= 1;
-		if (underConstruction == true) {
-			service -= 2;
+
+		// decay of staff satisfaction
+		double decayStaffSatisfaction = 0;
+		decayStaffSatisfaction += Config.Decay.STAFF_SATISFACTION_NATURAL_DECAY; // the natural decay of staff satisfaction
+		double workLevel = rooms/(Config.Balance.ROOMS_PER_STAFF * staff); // the difficulty of the employee's jobs, based on how many rooms they CAN clean vs how many there are
+		double targetStaffSatisfaction = Config.Range.STAFF_SATISFACTION_MAX - (Config.Balance.STAFF_SATISFACTION_TARGET_SCALING * Math.pow(workLevel, Config.Decay.STAFF_SATISFACTION_EXPONENT)); // the target value that staf satisfaction rapidly decays towards
+		if (staffSatisfaction > targetStaffSatisfaction) {
+			decayStaffSatisfaction += Config.Decay.STAFF_SATISFACTION_DECAY_SCALING * (staffSatisfaction - targetStaffSatisfaction); // the calculation for rapid decay towards the target value
 		} // end if
-		reputation -= 1;
+		setStaffSatisfaction( (int) staffSatisfaction - decayStaffSatisfaction);
+
+		// decay of service
+		double decayService = 0;
+		decayService += Config.Decay.SERVICE_NATURAL_DECAY; // the natural decay of service
+		decayService += (Config.Decay.SERVICE_DECAY_SCALING * Math.pow(Config.Range.STAFF_SATISFACTION_MAX - staffSatisfaction, Config.Decay.SERVICE_DECAY_EXPONENT)); // decay from staff satisfaction
+		setService( (int) service - decayService);
+
+		// decay of reputation
+		double decayReputation = 0;
+		decayReputation += Config.Decay.REPUTATION_NATURAL_DECAY; // the natural decay of reputation
+		double targetReputation = service * Config.Balance.REPUTATION_TARGET_SCALING; // the target value that reputation rapidly decays towards
+		if (reputation > targetReputation) {
+			decayReputation += Config.Decay.REPUTATION_DECAY_SCALING * (reputation - targetReputation); // the calculation for rapid decay towards the target value
+		} // end if
+		setReputation( (int) reputation - decayReputation);
+
 	} // end decay
 	
 	public boolean staffQuit() {
