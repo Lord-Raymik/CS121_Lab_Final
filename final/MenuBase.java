@@ -21,7 +21,7 @@ public abstract class MenuBase implements HasMenu {
 	
 	public void printHeader() {
 		String header = bar.repeat(10);
-		System.out.println("\n".repeat(30) + header + " " + title + " " + header + "\n");
+		System.out.println("\n".repeat(Config.Menu.MENU_DISTANCE) + header + " " + title + " " + header + "\n");
 	} // end printHeader
 	
 	public String getString(String prompt) {

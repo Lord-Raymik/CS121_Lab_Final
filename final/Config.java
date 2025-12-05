@@ -7,6 +7,13 @@
 public class Config {
 
 	/*
+	 * values for certain menu components
+	 */
+	public static class Menu {
+		public static final int MENU_DISTANCE = 30; // the number of new lines between each menu
+	} // end Menu def
+
+	/*
 	 * default values for a new Hotel
 	 */
 	public static class Default {
