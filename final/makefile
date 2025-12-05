@@ -27,3 +27,6 @@ testHotel: Hotel.class
 
 clean:
 	rm *.class
+
+debug: Hotel.class
+	jdb Hotel

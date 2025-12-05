@@ -61,6 +61,8 @@ public class Hotel {
 		decayStaffSatisfaction += Config.Decay.STAFF_SATISFACTION_NATURAL_DECAY; // the natural decay of staff satisfaction
 		double workLevel = rooms/(Config.Balance.ROOMS_PER_STAFF * staff); // the difficulty of the employee's jobs, based on how many rooms they CAN clean vs how many there are
 		double targetStaffSatisfaction = Config.Range.STAFF_SATISFACTION_MAX - (Config.Balance.STAFF_SATISFACTION_TARGET_SCALING * Math.pow(workLevel, Config.Decay.STAFF_SATISFACTION_DECAY_EXPONENT)); // the target value that staf satisfaction rapidly decays towards
+
+		double payLevel = Math.max(0, (Config.Balance.STAFF_PAY_BASE + (rooms))) * Config.Balance.STAFF_PAY_MULT;
 		if (staffSatisfaction > targetStaffSatisfaction) {
 			decayStaffSatisfaction += Config.Decay.STAFF_SATISFACTION_DECAY_SCALING * (staffSatisfaction - targetStaffSatisfaction); // the calculation for rapid decay towards the target value
 		} // end if

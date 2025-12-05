@@ -19,11 +19,11 @@ public class MenuTurn extends MenuBase {
 		System.out.println("Current Balance: $" + hotel.getBalance() + "\n");
 		System.out.println("What will you focus on this month?\n");
 		System.out.println("0) Nothing");
-		System.out.println("1) Hiring Campaign ($250)");
-		System.out.println("2) Hotel Service ($400)");
-		System.out.println("3) Marketing ($700)");
+		System.out.println("1) Hiring Campaign ($" + Config.Focus.COST_HIRE + ")");
+		System.out.println("2) Hotel Service ($" + Config.Focus.COST_SERVICE + ")");
+		System.out.println("3) Marketing ($" + Config.Focus.COST_REPUTATION + ")");
 		System.out.println("");
-		System.out.println("4) Hotel Expansion ($" + (hotel.getRooms() * 150) + ")\n          - large undertaking\n          - takes multiple months");
+		System.out.println("4) Hotel Expansion ($" + (Config.Focus.COST_EXPAND_BASE + (hotel.getRooms() - Config.Default.ROOMS) * Config.Focus.COST_EXPAND_SCALING) + ")\n          - large undertaking\n          - takes multiple months");
 	} // end menu
 	
 	public void start() {
@@ -48,17 +48,17 @@ public class MenuTurn extends MenuBase {
 				} // end if
 			} else if (choice == 2) {
 				keepGoing = false;
-				hotel.setBalance(hotel.getBalance() - 400);
-				hotel.setService(hotel.getService() + 6);
+				hotel.setBalance(hotel.getBalance() - Config.Focus.COST_SERVICE);
+				hotel.setService(hotel.getService() + Config.Focus.FOCUS_SERVICE);
 			} else if (choice == 3) {
 				keepGoing = false;
-				hotel.setBalance(hotel.getBalance() - 700);
-				hotel.setReputation(hotel.getReputation() + 15);
+				hotel.setBalance(hotel.getBalance() - Config.Focus.COST_REPUTATION);
+				hotel.setReputation(hotel.getReputation() + Config.Focus.FOCUS_REPUTATION);
 			} else if (choice == 4) {
 				if (hotel.getUnderConstruction() == false) {
 					keepGoing = false;
-					hotel.setBalance(hotel.getBalance() - (hotel.getRooms()*150));
-					hotel.expandRooms(10, 5);
+					hotel.setBalance(hotel.getBalance() - (Config.Focus.COST_EXPAND_BASE + ((hotel.getRooms() - Config.Default.ROOMS) * Config.Focus.COST_EXPAND_SCALING)));
+					hotel.expandRooms(Config.Focus.FOCUS_EXPAND, 5);
 				} // end if
 			} // end else if
 		} // end while loop
